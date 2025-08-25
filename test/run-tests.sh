@@ -117,6 +117,9 @@ for NODE_VERSION in $TEST_VERSIONS; do
     # Make binary available in PATH for testing
     export PATH="/tmp/test-bin:$PATH"
     
+    # Ensure test results directory exists
+    mkdir -p /project/test-staging/integration-results
+    
     # Run the test suite
     echo "Running test suite..."
     if node /project/test/test-server.js; then

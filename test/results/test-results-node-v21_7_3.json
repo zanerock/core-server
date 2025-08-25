@@ -1,0 +1,39 @@
+{
+  "nodeVersion": "v21.7.3",
+  "tests": [
+    {
+      "name": "Server Status (heartbeat)",
+      "status": "FAILED",
+      "error": "Server status is not OK"
+    },
+    {
+      "name": "Server Version",
+      "status": "PASSED"
+    },
+    {
+      "name": "API Documentation",
+      "status": "PASSED"
+    },
+    {
+      "name": "List Plugins",
+      "status": "FAILED",
+      "error": "Invalid plugin list response"
+    },
+    {
+      "name": "Server Next Commands",
+      "status": "FAILED",
+      "error": "Invalid next-commands response"
+    },
+    {
+      "name": "Invalid Endpoint Returns 404",
+      "status": "PASSED"
+    },
+    {
+      "name": "Server Accepts JSON",
+      "status": "FAILED",
+      "error": "Expected status 200, got 404"
+    }
+  ],
+  "passed": 3,
+  "failed": 4
+}
