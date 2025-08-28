@@ -75,8 +75,8 @@ fi
 
 # Step 2: Create results directory
 echo -e "${YELLOW}Step 2: Setting up test environment...${NC}"
-mkdir -p "$SCRIPT_DIR/results"
-rm -f "$SCRIPT_DIR/results/"*.json
+mkdir -p "$SCRIPT_DIR/../test-staging/integration-results"
+rm -f "$SCRIPT_DIR/../test-staging/integration-results/"*.json
 
 # Step 3: Make scripts executable
 chmod +x "$SCRIPT_DIR"/*.sh
@@ -122,11 +122,11 @@ fi
 echo ""
 echo -e "${YELLOW}Step 5: Processing test results...${NC}"
 
-if [ -d "$SCRIPT_DIR/results" ] && [ "$(ls -A $SCRIPT_DIR/results)" ]; then
-    echo "Test results available in: $SCRIPT_DIR/results/"
+if [ -d "$SCRIPT_DIR/../test-staging/integration-results" ] && [ "$(ls -A $SCRIPT_DIR/../test-staging/integration-results)" ]; then
+    echo "Test results available in: $SCRIPT_DIR/../test-staging/integration-results/"
     echo ""
     echo "Summary by Node version:"
-    for result_file in "$SCRIPT_DIR/results"/*.json; do
+    for result_file in "$SCRIPT_DIR/../test-staging/integration-results"/test-results-*.json; do
         if [ -f "$result_file" ]; then
             NODE_VERSION=$(basename "$result_file" | sed 's/test-results-node-//;s/.json//;s/_/./g')
             PASSED=$(jq -r '.passed' "$result_file" 2>/dev/null || echo "0")

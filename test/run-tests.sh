@@ -154,7 +154,7 @@ echo "=================================================="
 
 # Copy test results to mounted volume if available
 if [ -d "/results" ]; then
-    cp /tmp/test-results-*.json /results/ 2>/dev/null || true
+    cp /project/test-staging/integration-results/test-results-*.json /results/ 2>/dev/null || true
     echo "Test results copied to /results/"
 fi
 

@@ -80,7 +80,7 @@ docker compose -f test/docker-compose.yml build
 docker compose -f test/docker-compose.yml run --rm comply-server-test
 
 # 4. Check results
-ls test/results/*.json
+ls test-staging/integration-results/*.json
 ```
 
 ## Test Coverage
@@ -116,7 +116,7 @@ The tests specifically verify that the following standard packages are automatic
 
 ## Test Results
 
-Test results are saved to `test/results/` directory as JSON files, with one file per Node version tested. Each file contains:
+Test results are saved to `test-staging/integration-results/` directory as JSON files, with one file per Node version tested. Each file contains:
 
 - Node version used
 - List of tests run
