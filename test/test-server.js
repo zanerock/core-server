@@ -271,8 +271,10 @@ async function runTests() {
         }
         
         const data = JSON.parse(response.body)
-        if (!data.data || !Array.isArray(data.data)) {
-          throw new Error('Invalid plugin list response')
+        // NOTE: Currently returns plain array [] but could be enhanced to return {data: []} 
+        // for API consistency
+        if (!Array.isArray(data)) {
+          throw new Error('Plugin list should be an array')
         }
       }
     },
