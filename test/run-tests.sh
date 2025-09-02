@@ -152,11 +152,8 @@ fi
 
 echo "=================================================="
 
-# Copy test results to mounted volume if available
-if [ -d "/results" ]; then
-    cp /project/test-staging/integration-results/test-results-*.json /results/ 2>/dev/null || true
-    echo "Test results copied to /results/"
-fi
+# Results are now written directly to /project/test-staging/integration-results/
+# No need to copy them elsewhere
 
 # Exit with appropriate code
 if [ $OVERALL_FAILED -gt 0 ]; then
