@@ -16,12 +16,14 @@ The integration test suite:
 
 ## Files
 
+`run-integration-tests.sh` is the script that orchestrates the whole test process.
+
+Other key files include:
 - `Dockerfile` - Node.js-based container with nvm for testing across Node versions
 - `docker-compose.yml` - Docker Compose configuration for the test environment
 - `get-node-versions.js` - Script to determine which Node versions to test
 - `test-server.js` - HTTP test suite that verifies server functionality
 - `run-tests.sh` - Main test runner that executes inside the Docker container
-- `run-integration-tests.sh` - Host-side script to orchestrate the entire test process
 - `test-ci.sh` - Simplified CI test that runs with current Node version only
 - `test-basic.js` - Basic functionality test for package validation
 - `test-integration-quick.js` - Quick integration test to verify standard packages
