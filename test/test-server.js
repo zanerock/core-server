@@ -293,7 +293,7 @@ async function runTests() {
         }
         
         const data = JSON.parse(response.body)
-        if (!data.commands || !Array.isArray(data.commands)) {
+        if (!data || !Array.isArray(data)) {
           throw new Error('Invalid next-commands response')
         }
       }
@@ -319,7 +319,7 @@ async function runTests() {
         const response = await makeRequest({
           hostname: SERVER_HOST,
           port: SERVER_PORT,
-          path: '/server/status',
+          path: '/heartbeat',
           method: 'GET',
           headers: {
             'Accept': 'application/json'
