@@ -16,7 +16,8 @@
     "qa": "make qa",
     "start": "./scripts/start.sh",
     "stop": "./scripts/stop.sh",
-    "test:local": "./scripts/test.sh"
+    "test:local": "./scripts/test.sh",
+    "test:integration": "./test/run-integration-tests.sh"
   },
   "engines": {
     "node": ">=18.0.0"
