@@ -155,6 +155,26 @@ echo "=================================================="
 # Results are now written directly to /project/test-staging/integration-results/
 # No need to copy them elsewhere
 
+# If NO_CLEANUP is set, keep container running for debugging
+if [ -n "$NO_CLEANUP" ]; then
+    echo ""
+    echo "=================================================="
+    echo "KEEPING CONTAINER ALIVE FOR DEBUGGING"
+    echo "=================================================="
+    echo "Container will stay running. To debug:"
+    echo "  - From host: docker exec -it comply-server-integration-test /bin/bash"
+    echo "  - Test files are in: /project/test/"
+    echo "  - Test results are in: /project/test-staging/integration-results/"
+    echo "=================================================="
+    echo ""
+
+    # Keep container running with a sleep loop
+    echo "Entering debug mode (container will stay alive)..."
+    while true; do
+        sleep 3600  # Sleep for 1 hour at a time
+    done
+fi
+
 # Exit with appropriate code
 if [ $OVERALL_FAILED -gt 0 ]; then
     exit 1

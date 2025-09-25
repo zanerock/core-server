@@ -108,14 +108,29 @@ if [ -n "$TEST_SINGLE_VERSION" ]; then
 fi
 
 # Run the tests with log capture
-if docker compose -f test/docker-compose.yml run --rm \
-    -e TEST_SINGLE_VERSION="${TEST_SINGLE_VERSION:-}" \
-    comply-server-test 2>&1 | tee "$LOG_FILE"; then
-    TEST_EXIT_CODE=0
-    echo -e "${GREEN}✓ All tests completed successfully${NC}"
+# Don't use --rm flag when NO_CLEANUP is set to keep container for debugging
+if [ -n "$NO_CLEANUP" ]; then
+    echo -e "${YELLOW}Running without --rm flag to preserve container for debugging${NC}"
+    if docker compose -f test/docker-compose.yml run \
+        -e TEST_SINGLE_VERSION="${TEST_SINGLE_VERSION:-}" \
+        -e NO_CLEANUP="${NO_CLEANUP}" \
+        comply-server-test 2>&1 | tee "$LOG_FILE"; then
+        TEST_EXIT_CODE=0
+        echo -e "${GREEN}✓ All tests completed successfully${NC}"
+    else
+        TEST_EXIT_CODE=$?
+        echo -e "${RED}✗ Some tests failed${NC}"
+    fi
 else
-    TEST_EXIT_CODE=$?
-    echo -e "${RED}✗ Some tests failed${NC}"
+    if docker compose -f test/docker-compose.yml run --rm \
+        -e TEST_SINGLE_VERSION="${TEST_SINGLE_VERSION:-}" \
+        comply-server-test 2>&1 | tee "$LOG_FILE"; then
+        TEST_EXIT_CODE=0
+        echo -e "${GREEN}✓ All tests completed successfully${NC}"
+    else
+        TEST_EXIT_CODE=$?
+        echo -e "${RED}✗ Some tests failed${NC}"
+    fi
 fi
 
 # Step 5: Process results
@@ -144,10 +159,25 @@ else
 fi
 
 # Step 6: Cleanup
-echo ""
-echo -e "${YELLOW}Step 6: Cleaning up...${NC}"
-docker compose -f test/docker-compose.yml down 2>/dev/null || true
-echo -e "${GREEN}✓ Cleanup complete${NC}"
+if [ -z "$NO_CLEANUP" ]; then
+    echo ""
+    echo -e "${YELLOW}Step 6: Cleaning up...${NC}"
+    docker compose -f test/docker-compose.yml down 2>/dev/null || true
+    echo -e "${GREEN}✓ Cleanup complete${NC}"
+else
+    echo ""
+    echo -e "${YELLOW}Step 6: Skipping cleanup (NO_CLEANUP is set)${NC}"
+    echo -e "${YELLOW}Container is preserved for debugging.${NC}"
+    echo ""
+    echo "To access the container:"
+    echo "  docker exec -it comply-server-integration-test /bin/bash"
+    echo ""
+    echo "To view container logs:"
+    echo "  docker logs comply-server-integration-test"
+    echo ""
+    echo "To clean up manually when done:"
+    echo "  docker compose -f test/docker-compose.yml down"
+fi
 
 echo ""
 echo "=================================================="

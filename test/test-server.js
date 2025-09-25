@@ -73,9 +73,17 @@ function makeRequest(options, testContext = null) {
 }
 
 // Wait for server to be ready
-async function waitForServer(maxAttempts = 30) {
+async function waitForServer(serverProcess, maxAttempts = 30) {
+  let running = true
+  serverProcess.on('exit', () => {
+    running = false
+  })
   console.log(`Waiting for server at ${SERVER_HOST}:${SERVER_PORT}/heartbeat`)
   for (let i = 0; i < maxAttempts; i++) {
+    if (!running) {
+      throw new Error('Server exited unexpectedly')
+    }
+
     try {
       const response = await makeRequest({
         hostname: SERVER_HOST,
@@ -482,7 +490,7 @@ async function main() {
     serverProcess = await startServer()
     
     console.log('Waiting for server to be ready...')
-    await waitForServer()
+    await waitForServer(serverProcess)
     
     console.log('Running test suite...')
     const results = await runTests()
