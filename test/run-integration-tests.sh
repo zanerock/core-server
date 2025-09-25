@@ -58,18 +58,15 @@ fi
 
 echo ""
 
-# Step 1: Build the package
-echo -e "${YELLOW}Step 1: Building comply-server package...${NC}"
+# Step 1: Ensure project is built
+echo -e "${YELLOW}Step 1: Ensuring project is built...${NC}"
 cd "$PROJECT_ROOT"
 
-# Clean up old packages
-rm -f comply-server-*.tgz
-
-# Build the package
-if npm pack; then
-    echo -e "${GREEN}✓ Package built successfully${NC}"
+# Build the project (this creates dist/ directory used by tests)
+if npm run build; then
+    echo -e "${GREEN}✓ Project built successfully${NC}"
 else
-    echo -e "${RED}✗ Failed to build package${NC}"
+    echo -e "${RED}✗ Failed to build project${NC}"
     exit 1
 fi
 
