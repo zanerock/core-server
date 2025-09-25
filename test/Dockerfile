@@ -30,11 +30,16 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | b
 # Add nvm to PATH for subsequent RUN commands
 SHELL ["/bin/bash", "-c"]
 
-# Source nvm and pre-install some Node versions to speed up tests and cache the test host image.
+# Source nvm and pre-install all Node versions to speed up tests and enable offline testing.
+# Installing all major versions from 18 onwards that are commonly tested
 RUN source $NVM_DIR/nvm.sh && \
     nvm install 18 && \
+    nvm install 19 && \
     nvm install 20 && \
+    nvm install 21 && \
     nvm install 22 && \
+    nvm install 23 && \
+    nvm install 24 && \
     nvm alias default 18
 
 # Create directories that will be used when volume is mounted

@@ -92,12 +92,16 @@ for NODE_VERSION in $TEST_VERSIONS; do
     echo "Testing with Node v$NODE_VERSION"
     echo "=================================================="
     
-    # Install the Node version
-    echo "Installing Node v$NODE_VERSION..."
-    nvm install $NODE_VERSION || {
-        echo "Warning: Could not install Node v$NODE_VERSION, skipping..."
-        continue
-    }
+    # Check if Node version is already installed, only install if missing
+    if nvm ls $NODE_VERSION &>/dev/null; then
+        echo "Using pre-installed Node v$NODE_VERSION"
+    else
+        echo "Node v$NODE_VERSION not found, installing..."
+        nvm install $NODE_VERSION || {
+            echo "Warning: Could not install Node v$NODE_VERSION, skipping..."
+            continue
+        }
+    fi
     
     # Use the installed version
     nvm use $NODE_VERSION
