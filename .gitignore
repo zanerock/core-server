@@ -6,4 +6,4 @@
 /test-staging
 /*.log
 /*.pid
-/sdlcforge-core-server-*.tgz
+/.claude
