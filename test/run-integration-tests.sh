@@ -73,7 +73,8 @@ fi
 # Step 2: Create results directory
 echo -e "${YELLOW}Step 2: Setting up test environment...${NC}"
 mkdir -p "$SCRIPT_DIR/../test-staging/integration-results"
-rm -f "$SCRIPT_DIR/../test-staging/integration-results/"*.json
+# Clear all existing test results and logs
+rm -rf "$SCRIPT_DIR/../test-staging/integration-results/"*
 
 # Step 3: Make scripts executable
 chmod +x "$SCRIPT_DIR"/*.sh
@@ -159,7 +160,7 @@ fi
 if [ -z "$NO_CLEANUP" ]; then
     echo ""
     echo -e "${YELLOW}Step 6: Cleaning up...${NC}"
-    docker compose -f test/docker-compose.yml down 2>/dev/null || true
+    docker compose -f test/docker-compose.yml down --remove-orphans --volumes2>/dev/null || true
     echo -e "${GREEN}✓ Cleanup complete${NC}"
 else
     echo ""
@@ -173,7 +174,7 @@ else
     echo "  docker logs comply-server-integration-test"
     echo ""
     echo "To clean up manually when done:"
-    echo "  docker compose -f test/docker-compose.yml down"
+    echo "  docker compose -f test/docker-compose.yml down --remove-orphans --volumes"
 fi
 
 echo ""

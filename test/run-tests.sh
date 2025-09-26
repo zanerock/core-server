@@ -152,6 +152,15 @@ echo "Failed: $OVERALL_FAILED"
 
 if [ ! -z "$FAILED_VERSIONS" ]; then
     echo "Failed versions:$FAILED_VERSIONS"
+    echo ""
+
+    # Show available log files for failed versions
+    for failed_version in $FAILED_VERSIONS; do
+        version_with_underscores=$(echo "$failed_version" | sed 's/\./_/g')
+        echo "Logs for v$failed_version:"
+        ls /project/test-staging/integration-results/*-v${version_with_underscores}*.txt | sed 's|/project/||' | awk '{print "-  "$0}' 2>/dev/null || echo "  No log files found for this version"
+        echo ""
+    done
 fi
 
 echo "=================================================="
